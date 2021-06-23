@@ -8,7 +8,7 @@
 * Done
 
 
-## Following screenshots representing the UI of the Application
+## Following screenshots represent the UI of the Application
 
 ### List movies
 
