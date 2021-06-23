@@ -19,5 +19,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api', movieRouter)
+const host = '0.0.0.0'
 
-app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
+app.listen(apiPort, host, () => console.log(`Server running on port ${apiPort}`))
