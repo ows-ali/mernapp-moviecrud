@@ -9,13 +9,19 @@ const app = express()
 const apiPort = 3003
 
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors())
+
+
+var corsOptions = {
+    origin: "*"
+  };
+app.use(cors(corsOptions))
+  
 app.use(bodyParser.json())
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send(res.json({resp:'Hello World!',header:req.headers}))
 })
 
 app.use('/api', movieRouter)

@@ -51,7 +51,6 @@ updateMovie = async (req, res) => {
             })
         }
         movie.name = body.name
-        movie.time = body.time
         movie.rating = body.rating
         movie
             .save()
@@ -103,17 +102,23 @@ getMovieById = async (req, res) => {
 }
 
 getMovies = async (req, res) => {
-    await Movie.find({}, (err, movies) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err })
-        }
+
+    
+    try {
+        const movies  = await Movie.find({  }).sort([['createdAt', -1]]);
         if (!movies.length) {
             return res
                 .status(404)
-                .json({ success: false, error: `Movie not found` })
+                .json({ success: false, error: `No movies not found` })
         }
         return res.status(200).json({ success: true, data: movies })
-    }).catch(err => console.log(err))
+
+    } catch(err){
+            console.log('in er',err)
+            return res.status(400).json({ success: false, error: err })
+
+    }
+
 }
 
 module.exports = {
