@@ -10,11 +10,16 @@ const Title = styled.h1.attrs({
 const Wrapper = styled.div.attrs({
     className: 'form-group',
 })`
-    margin: 0 30px;
+    margin: 50px 30px;
 `
 
 const Label = styled.label`
     margin: 5px;
+`
+const HelpText = styled.p`
+    margin: 5px;
+    opacity: 0.7;
+    font-size:75%
 `
 
 const InputText = styled.input.attrs({
@@ -42,7 +47,7 @@ class MoviesInsert extends Component {
         this.state = {
             name: '',
             rating: '',
-            time: '',
+
         }
     }
 
@@ -59,28 +64,37 @@ class MoviesInsert extends Component {
         this.setState({ rating })
     }
 
-    handleChangeInputTime = async event => {
-        const time = event.target.value
-        this.setState({ time })
-    }
 
     handleIncludeMovie = async () => {
-        const { name, rating, time } = this.state
-        const arrayTime = time.split('/')
-        const payload = { name, rating, time: arrayTime }
+        const { name, rating} = this.state
 
-        await api.insertMovie(payload).then(res => {
-            window.alert(`Movie inserted successfully`)
-            this.setState({
-                name: '',
-                rating: '',
-                time: '',
+        const payload = { name, rating }
+        if (!name ) {
+            alert("Please provide movie name")
+            return
+        }
+        if ( !rating) {
+            alert("Please provide rating")
+            return
+        }
+        try {
+            await api.insertMovie(payload).then(res => {
+                window.alert(`Movie inserted successfully`)
+                this.setState({
+                    name: '',
+                    rating: '',
+
+                })
             })
-        })
+        }
+        catch(e){
+         
+            console.log('error inserting moview', e.message, e.response ,e.response.status)
+        }
     }
 
     render() {
-        const { name, rating, time } = this.state
+        const { name, rating } = this.state
         return (
             <Wrapper>
                 <Title>Create Movie</Title>
@@ -103,13 +117,9 @@ class MoviesInsert extends Component {
                     value={rating}
                     onChange={this.handleChangeInputRating}
                 />
+                <HelpText>Range: 0.1 till 10</HelpText>
 
-                <Label>Time: </Label>
-                <InputText
-                    type="text"
-                    value={time}
-                    onChange={this.handleChangeInputTime}
-                />
+
 
                 <Button onClick={this.handleIncludeMovie}>Add Movie</Button>
                 <CancelButton href={'/movies/list'}>Cancel</CancelButton>

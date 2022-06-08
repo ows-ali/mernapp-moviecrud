@@ -7,8 +7,12 @@ import styled from 'styled-components'
 import 'react-table/react-table.css'
 
 const Wrapper = styled.div`
-    padding: 0 40px 40px 40px;
+    padding: 50px 40px 40px 40px;
 `
+
+const Title = styled.h1.attrs({
+    className: 'h1',
+})``
 
 const Update = styled.div`
     color: #ef9b0f;
@@ -63,18 +67,24 @@ class MoviesList extends Component {
 
     componentDidMount = async () => {
         this.setState({ isLoading: true })
-
+        try {
         await api.getAllMovies().then(movies => {
             this.setState({
                 movies: movies.data.data,
                 isLoading: false,
             })
         })
+        } catch (e){
+            console.log('error loading movies',e)
+            this.setState({
+                isLoading: false
+            })
+        }
     }
 
     render() {
         const { movies, isLoading } = this.state
-        console.log('TCL: MoviesList -> render -> movies', movies)
+        // console.log('TCL: MoviesList -> render -> movies', movies, isLoading)
 
         const columns = [
             {
@@ -92,11 +102,7 @@ class MoviesList extends Component {
                 accessor: 'rating',
                 filterable: true,
             },
-            {
-                Header: 'Time',
-                accessor: 'time',
-                Cell: props => <span>{props.value.join(' / ')}</span>,
-            },
+
             {
                 Header: '',
                 accessor: '',
@@ -122,12 +128,12 @@ class MoviesList extends Component {
         ]
 
         let showTable = true
-        if (!movies.length) {
-            showTable = false
-        }
 
+        
         return (
             <Wrapper>
+                <Title>Movies List</Title>
+
                 {showTable && (
                     <ReactTable
                         data={movies}

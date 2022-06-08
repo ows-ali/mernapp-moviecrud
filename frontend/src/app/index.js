@@ -11,6 +11,7 @@ function App() {
         <Router>
             <NavBar />
             <Switch>
+                <Route path="/" exact component={MoviesList} />
                 <Route path="/movies/list" exact component={MoviesList} />
                 <Route path="/movies/create" exact component={MoviesInsert} />
                 <Route

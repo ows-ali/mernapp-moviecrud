@@ -5,7 +5,7 @@ import Logo from './Logo'
 import Links from './Links'
 
 const Container = styled.div.attrs({
-    className: 'container',
+    // className: 'container',
 })``
 
 const Nav = styled.nav.attrs({

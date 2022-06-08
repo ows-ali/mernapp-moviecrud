@@ -43,7 +43,7 @@ class MoviesUpdate extends Component {
             id: this.props.match.params.id,
             name: '',
             rating: '',
-            time: '',
+
         }
     }
 
@@ -60,22 +60,19 @@ class MoviesUpdate extends Component {
         this.setState({ rating })
     }
 
-    handleChangeInputTime = async event => {
-        const time = event.target.value
-        this.setState({ time })
-    }
+    
 
     handleUpdateMovie = async () => {
-        const { id, name, rating, time } = this.state
-        const arrayTime = time.split('/')
-        const payload = { name, rating, time: arrayTime }
+        const { id, name, rating } = this.state
+
+        const payload = { name, rating }
 
         await api.updateMovieById(id, payload).then(res => {
             window.alert(`Movie updated successfully`)
             this.setState({
                 name: '',
                 rating: '',
-                time: '',
+
             })
         })
     }
@@ -87,12 +84,12 @@ class MoviesUpdate extends Component {
         this.setState({
             name: movie.data.data.name,
             rating: movie.data.data.rating,
-            time: movie.data.data.time.join('/'),
+
         })
     }
 
     render() {
-        const { name, rating, time } = this.state
+        const { name, rating} = this.state
         return (
             <Wrapper>
                 <Title>Update Movie</Title>
@@ -114,13 +111,6 @@ class MoviesUpdate extends Component {
                     pattern="[0-9]+([,\.][0-9]+)?"
                     value={rating}
                     onChange={this.handleChangeInputRating}
-                />
-
-                <Label>Time: </Label>
-                <InputText
-                    type="text"
-                    value={time}
-                    onChange={this.handleChangeInputTime}
                 />
 
                 <Button onClick={this.handleUpdateMovie}>Update Movie</Button>
