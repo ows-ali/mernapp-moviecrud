@@ -11,10 +11,7 @@ const apiPort = 3003
 app.use(bodyParser.urlencoded({ extended: true }))
 
 
-var corsOptions = {
-    origin: "*"
-  };
-app.use(cors(corsOptions))
+app.use()
   
 app.use(bodyParser.json())
 
