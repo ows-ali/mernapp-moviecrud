@@ -11,16 +11,17 @@ const apiPort = 3003
 app.use(bodyParser.urlencoded({ extended: true }))
 
 
-var corsOptions = {
-    origin: "https://mern-movies.netlify.app/"
-  };
-app.use(cors(corsOptions))
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+var corsOptions = {
+    origin: "*"
+  };
+app.use(cors(corsOptions))
+
 
 app.use(bodyParser.json())
 
